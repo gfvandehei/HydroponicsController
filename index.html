@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <div class="state-display"></div>
+        <div class="schedule-view">
+            <ul class="drain-time-list">
+            </ul>
+        </div>
+        <button id="fill">Fill</button>
+        <button id="drain">Drain</button>
+        <script>
+            let drainTimeList = document.querySelector(".drain-time-list");
+            let stateDisplay = document.querySelector(".state-display");
+            let drainButton = document.querySelector("#drain");
+            let fillButton = document.querySelector("#fill");
+
+            drainButton.addEventListener("click", () => {
+                fetch("/drain").then(async (result) => console.log(await result.json()))
+            });
+            fillButton.addEventListener("click", () => {
+                fetch("/fill").then(async (result) => console.log(await result.json()))
+            })
+
+            let updateInterval = setInterval(async () => {
+                let schedule_resp = await fetch("/schedule", {method: "get"});
+                let state_resp = await fetch("/state", {method: "get"});
+                let schedule = await schedule_resp.json();
+                let state = await state_resp.json();
+
+                console.log(schedule);
+                console.log(state);
+                //clear drain time
+                while(drainTimeList.firstChild){
+                    drainTimeList.removeChild(drainTimeList.firstChild);
+                }
+
+                for(let i of schedule.data){
+                    let newListItem = document.createElement("li");
+                    newListItem.innerText = i;
+                    drainTimeList.appendChild(newListItem);
+                }
+
+                stateDisplay.innerText = state.data;
+        
+            }, 1000);
+        </script>
+    </body>
+</html>
