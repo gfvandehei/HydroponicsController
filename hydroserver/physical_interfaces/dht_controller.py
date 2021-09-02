@@ -47,3 +47,12 @@ class DHTController(object):
             raise error
         
         return (self.previous_temp, self.previous_hum)
+
+    def json(self):
+        (temp, hum) = self.get_values()
+        return {
+            "label": self.database_object.label,
+            "pin": self.database_object.pin,
+            "temperature": temp,
+            "humidity": hum
+        }

@@ -1,3 +1,4 @@
+from hydroserver.views.dht_blueprint import create_dht_blueprint
 from hydroserver.views.servo_blueprint import create_servo_blueprint
 from gpiozero.pins import Factory
 from hydroserver.settings import HydroponicsServerSettings
@@ -44,6 +45,10 @@ class HydroponicsServer(Thread):
                 self.servo_controller
             ),
             url_prefix="/servo"
+        )
+        self.flask_app.register_blueprint(
+            create_dht_blueprint(self.dht_controller),
+            url_prefix="/dht"
         )
 
 
