@@ -1,3 +1,4 @@
+from hydroserver.views.servo_blueprint import create_servo_blueprint
 from gpiozero.pins import Factory
 from hydroserver.settings import HydroponicsServerSettings
 from threading import Thread
@@ -37,6 +38,12 @@ class HydroponicsServer(Thread):
                 self.camera_controller
             ),
             url_prefix="/camera"
+        )
+        self.flask_app.register_blueprint(
+            create_servo_blueprint(
+                self.servo_controller
+            ),
+            url_prefix="/servo"
         )
 
 
