@@ -1,6 +1,9 @@
 from hydroserver.controllers.database import DatabaseConnectionController
 from hydroserver.physical_interfaces.pump_controller import PumpController
 import hydroserver.model.model as Model
+import logging
+
+log = logging.getLogger(__name__)
 
 class PumpManager(object):
 
@@ -19,5 +22,5 @@ class PumpManager(object):
                 pump.time_to_fill
             )
             self.pumps[pump.id] = new_pump_controller
-        
+        log.debug(f"Created {len(self.pumps)} pumps from database")
         session.close()

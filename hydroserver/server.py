@@ -1,3 +1,4 @@
+from gpiozero.pins import Factory
 from hydroserver.settings import HydroponicsServerSettings
 from threading import Thread
 import flask
@@ -7,7 +8,8 @@ from hydroserver.controllers.camera_manager import CameraManager
 from hydroserver.controllers.pump_manager import PumpManager
 from hydroserver.controllers.gimbal_manager import GimbalManager
 from hydroserver.controllers.servomanager import ServoManager
-
+from hydroserver.controllers.dht_manager import DHTManager
+from gpiozero.pins.pigpio import PiGPIOFactory
 from hydroserver.views.camera_blueprint import create_camera_blueprint
 import logging
 logging.basicConfig(level=logging.DEBUG)
@@ -19,14 +21,16 @@ class HydroponicsServer(Thread):
         self.settings = settings
         self.flask_app = flask.Flask(__name__)
         
+        # gpiozero conf
+        pin_factory = PiGPIOFactory()
         # create controllers
         self.database_controller = DatabaseConnectionController(settings.sql_uri)
         self.camera_store_controller = CameraStoreManager(self.database_controller, settings.system_id)
         self.camera_controller = CameraManager(self.database_controller, self.camera_store_controller, settings.system_id)
         self.pump_controller = PumpManager(self.database_controller, settings.system_id)
-        self.servo_controller = ServoManager(self.database_controller, settings.system_id)
+        self.servo_controller = ServoManager(self.database_controller, settings.system_id, pin_factory)
         self.gimbal_controller = GimbalManager(self.database_controller, self.camera_controller, self.servo_controller, settings.system_id)
-        
+        self.dht_controller = DHTManager(self.database_controller, settings.system_id)
         # add views
         self.flask_app.register_blueprint(
             create_camera_blueprint(

@@ -64,3 +64,11 @@ class Pump(Base):
     system_id = Column(Integer, ForeignKey("systems.id"))
     time_to_fill = Column(Integer)
     
+class DHTSensor(Base):
+    __tablename__="dht_sensors"
+
+    id = Column(Integer, primary_key=True)
+    label = Column(String)
+    pin = Column(Integer)
+    dht_type = Column(String)
+    system_id = Column(Integer, ForeignKey("systems.id"))

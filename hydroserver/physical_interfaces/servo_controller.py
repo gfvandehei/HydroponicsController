@@ -1,9 +1,11 @@
 from gpiozero import Servo
+from gpiozero import Device
+from gpiozero.pins.pigpio import PiGPIOFactory
 
 class ServoController(object):
-    def __init__(self, servo_pin: int):
+    def __init__(self, servo_pin: int, factory=None):
         self._pin = servo_pin
-        self._servo = Servo(self._pin)
+        self._servo = Servo(self._pin, -1, pin_factory=factory)
 
     def set_value(self, value: float):
         if value > 1 or value < -1:

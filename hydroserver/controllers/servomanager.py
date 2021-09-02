@@ -7,9 +7,10 @@ import logging
 log = logging.getLogger(__name__)
 
 class ServoManager(object):
-    def __init__(self, database: DatabaseConnectionController, system_id: int):
+    def __init__(self, database: DatabaseConnectionController, system_id: int, pin_factory=None):
         self.db = database
         self.system = system_id
+        self.pin_factory = pin_factory
         self.servo_by_id: Dict[int, ServoController] = {}
 
         self.populate_from_database()
@@ -18,7 +19,7 @@ class ServoManager(object):
         session = self.db.get_session()
         servos = session.query(Model.Servo).filter(Model.Servo.system_id==self.system).all()
         for servo in servos:
-            new_servo_controller = ServoController(servo.pin)
+            new_servo_controller = ServoController(servo.pin, factory=self.pin_factory)
             self.servo_by_id[servo.id] = new_servo_controller
         session.close()
         log.debug(f'Created {len(self.servo_by_id)} servos from the database')
