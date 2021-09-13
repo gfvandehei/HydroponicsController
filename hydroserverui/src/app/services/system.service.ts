@@ -1,0 +1,53 @@
+import { Injectable } from '@angular/core';
+import {BehaviorSubject} from "rxjs";
+import {System} from "../models/system";
+import {APIBaseResponse} from "../models/api";
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SystemService {
+  systems: BehaviorSubject<Set<number>> = new BehaviorSubject(new Set());
+  individual_systems: Map<number, BehaviorSubject<System>> = new Map();
+
+  constructor(
+    private http: HttpClient
+  ) {}
+
+  private async updateSystem(system: System, batch=false){
+    let existing_system = this.individual_systems.get(system.id)
+    if(existing_system != undefined && existing_system.value != system){
+      existing_system.next(system)
+    } else if(existing_system == undefined){
+      this.individual_systems.set(system.id, new BehaviorSubject(system));
+    }
+  }
+
+  async loadAllSystems(){
+    let response = await this.http.get<APIBaseResponse<Array<System>>>(`${environment.API_URL}/system`).toPromise();
+    const systemIDs = new Set(response.data.map((value, index, arr) => value.id));
+    const systems = response.data;
+    // check to see if a new system was added
+    let lastSet = this.systems.value;
+    if(lastSet != systemIDs){
+      this.systems.next(systemIDs);
+    }
+
+    for(let system of systems){
+      this.updateSystem(system, true);
+    }
+  }
+
+  async getSystem(systemID: number){
+    let response = await this.http.get<APIBaseResponse<System>>(`${environment.API_URL}/system/${systemID}`).toPromise();
+    const systemData = response.data;
+    if(!this.systems.value.has(systemData.id)){
+      let lastSystemSet = this.systems.value;
+      lastSystemSet.add(systemData.id);
+      this.systems.next(lastSystemSet);
+    }
+    this.updateSystem(systemData, false);
+  }
+}
