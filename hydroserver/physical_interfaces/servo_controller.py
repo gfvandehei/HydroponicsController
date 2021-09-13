@@ -28,3 +28,9 @@ class ServoController(object):
         else:
             self._servo.value -= iteration_step
         return self._servo.value
+
+    def json(self):
+        return {
+            "pin": self._pin,
+            "value": self._servo.value
+        }
