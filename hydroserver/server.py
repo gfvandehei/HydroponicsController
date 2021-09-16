@@ -4,6 +4,7 @@ from gpiozero.pins import Factory
 from hydroserver.settings import HydroponicsServerSettings
 from threading import Thread
 import flask
+from flask_cors import CORS
 from hydroserver.controllers.database import DatabaseConnectionController
 from hydroserver.controllers.camera_store_manager import CameraStoreManager
 from hydroserver.controllers.camera_manager import CameraManager
@@ -22,7 +23,7 @@ class HydroponicsServer(Thread):
         Thread.__init__(self)
         self.settings = settings
         self.flask_app = flask.Flask(__name__)
-        
+        CORS(self.flask_app)
         # gpiozero conf
         pin_factory = PiGPIOFactory()
         # create controllers
