@@ -10,7 +10,10 @@ def create_servo_blueprint(servo_controller: ServoManager):
         servos_serialized = {}
         for i in servo_controller.servo_by_id:
             servos_serialized[i] = servo_controller.servo_by_id[i].json()
-        return servos_serialized
+        return {
+            "data": servos_serialized,
+            "messages": []
+        }
 
     @servo_blueprint.route("/<servo_id>/move", methods=["POST"])
     def move_servo(servo_id):
@@ -25,6 +28,9 @@ def create_servo_blueprint(servo_controller: ServoManager):
                 servo.move_positive(float(value))
             else:
                 servo.move_positive(float(value))
-        return servo.json()
+        return {
+            "data": servo.json(),
+            "messages": []
+        }
 
     return servo_blueprint

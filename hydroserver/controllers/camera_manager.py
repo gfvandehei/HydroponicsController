@@ -34,7 +34,7 @@ class CameraManager(object):
             new_camera_controller = CameraController(
                 camera_store,
                 camera_stream,
-                camera.index
+                camera
             )
             self.cameras[camera.id] = new_camera_controller
             new_camera_controller.start()

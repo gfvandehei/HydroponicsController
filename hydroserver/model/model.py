@@ -52,6 +52,7 @@ class Servo(Base):
     __tablename__ = "servos"
 
     id=Column(Integer, primary_key=True)
+    label=Column(String)
     pin=Column(Integer)
     system_id=Column(Integer, ForeignKey("systems.id"))
 

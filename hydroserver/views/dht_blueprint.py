@@ -10,6 +10,10 @@ def create_dht_blueprint(dht_controller: DHTManager):
         dht_sensors_serialized = {}
         for (key, value) in dht_controller._dht_sensors.items():
             dht_sensors_serialized[key] = value.json()
-        return dht_sensors_serialized
+
+        return {
+            "data": dht_sensors_serialized,
+            "messages": []
+        }
     
     return dht_blueprint
