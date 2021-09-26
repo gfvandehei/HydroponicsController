@@ -23,12 +23,15 @@ export class SystemService {
     } else if(existing_system == undefined){
       this.individual_systems.set(system.id, new BehaviorSubject(system));
     }
+    return this.individual_systems.get(system.id) as BehaviorSubject<System>;
   }
 
   async loadAllSystems(){
-    let response = await this.http.get<APIBaseResponse<Array<System>>>(`${environment.API_URL}/system`).toPromise();
-    const systemIDs = new Set(response.data.map((value, index, arr) => value.id));
-    const systems = response.data;
+    //let response = await this.http.get<APIBaseResponse<Array<System>>>(`${environment.API_URL}/system`).toPromise();
+    //const systemIDs = new Set(response.data.map((value, index, arr) => value.id));
+    //const systems = response.data;
+    const systemIDs = new Set([1]);
+    const systems = [{id: 1, name: "system", address: "192.168.1.13"}]
     // check to see if a new system was added
     let lastSet = this.systems.value;
     if(lastSet != systemIDs){
@@ -41,13 +44,14 @@ export class SystemService {
   }
 
   async getSystem(systemID: number){
-    let response = await this.http.get<APIBaseResponse<System>>(`${environment.API_URL}/system/${systemID}`).toPromise();
+    /*let response = await this.http.get<APIBaseResponse<System>>(`${environment.API_URL}/system/${systemID}`).toPromise();
     const systemData = response.data;
     if(!this.systems.value.has(systemData.id)){
       let lastSystemSet = this.systems.value;
       lastSystemSet.add(systemData.id);
       this.systems.next(lastSystemSet);
-    }
-    this.updateSystem(systemData, false);
+    }*/
+    const systemData = {id: 1, name: "system", address: "192.168.1.13"};
+    return this.updateSystem(systemData, false);
   }
 }

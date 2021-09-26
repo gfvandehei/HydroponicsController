@@ -1,0 +1,18 @@
+<div class="servo-card small-card">
+    <div class="servo-card-header small-card-header">
+        <h3 class="servo-card-name">{{servo.value.label}}</h3>
+    </div>
+    <div class="servo-card-information">
+        <div class="servo-card-pin">
+            PIN: {{servo.value.pin}}
+        </div>
+        <div class="servo-card-value">
+            VALUE: {{servo.value.value}}
+        </div>
+    </div>
+    <div class="servo-card-actions small-card-actions">
+        <button (click)="increment()">&lt;</button>
+        <button (click)="setValue(0)">Set</button>
+        <button (click)="decrement()">&gt;</button>
+    </div>
+</div>

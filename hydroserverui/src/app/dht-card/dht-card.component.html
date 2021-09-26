@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="background">
+        <div class="content">
+
+        </div>
+    </div>
+</div>
+
+<div class="dht-card small-card">
+    <div class="dht-card-header small-card-header">
+        <h3 class="dht-card-name">{{dht.value.label}}</h3>
+    </div>
+    <div class="dht-card-information">
+        <div class="temperature-horz-bar bar-display">
+            <canvas #tempCanvas></canvas>
+            <h3>{{dht.value.temperature}} &#176;F</h3>
+        </div>
+        <div class="humidity-horz-bar bar-display">
+            <canvas #humCanvas></canvas>
+            <h3>{{dht.value.humidity}}%</h3>
+        </div>
+    </div>
+    <div class="servo-card-actions small-card-actions">
+    </div>
+</div>

@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.small-card{
+    background: #FFF;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    max-width: 250px;
+    border-radius: 10px 10px 0px 0px;
+    margin: 10px;
+}
+
+.small-card-header{
+    background: rgba(0,0,0,.05);
+    border-radius: 10px 10px 0px 0px;
+}
+
+.card-bar{
+    display: flex;
+}
