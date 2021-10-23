@@ -14,6 +14,7 @@ from hydroserver.controllers.servomanager import ServoManager
 from hydroserver.controllers.dht_manager import DHTManager
 from gpiozero.pins.pigpio import PiGPIOFactory
 from hydroserver.views.camera_blueprint import create_camera_blueprint
+from hydroserver.views.pump_blueprint import create_pump_blueprint
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
@@ -47,9 +48,14 @@ class HydroponicsServer(Thread):
             ),
             url_prefix="/servo"
         )
+        print("/dht")
         self.flask_app.register_blueprint(
             create_dht_blueprint(self.dht_controller),
             url_prefix="/dht"
+        )
+        self.flask_app.register_blueprint(
+            create_pump_blueprint(self.pump_controller),
+            url_prefix="/pump"
         )
 
 

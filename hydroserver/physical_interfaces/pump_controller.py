@@ -1,6 +1,9 @@
 import logging
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 from threading import Timer
+import gpiozero
+import hydroserver.model.model as Model
+
 
 class PumpController(object):
     """
@@ -8,8 +11,7 @@ class PumpController(object):
     """
     def __init__(
         self, 
-        pump_pin:int, 
-        time_to_fill:int, 
+        pump: Model.Pump,
         pump_state: str="WAITING",
         logger: logging.Logger=logging.getLogger(__name__)):
         """
@@ -20,11 +22,15 @@ class PumpController(object):
         time_to_fill -- the amount of time in seconds it takes to fill the reservior
         pump_state -- the initial state of the pump, defaults to waiting
         """
+        self.pump = pump
         self.pump_state = pump_state
-        self.pump_pin = pump_pin
-        self.ttf = time_to_fill
+        self.pump_pin = pump.pin
+        self.ttf = pump.time_to_fill
         self.log = logger
         self.active_timer = None
+        self.digital_device = gpiozero.LED(self.pump_pin)
+        self.digital_device.off()
+        #gpiozero.DigitalOutputDevice(self.pump_pin)
     
     def fill(self):
         """
@@ -33,7 +39,8 @@ class PumpController(object):
         if self.pump_state == "WAITING":
             self.pump_state = "FILLING"
             self.log.info("Switched to state filling")
-            GPIO.output(self.pump_pin, 1)
+            self.digital_device.on()
+            #GPIO.output(self.pump_pin, 1)
             self.active_timer = Timer(self.ttf, lambda: self.drain())
             self.active_timer.start()
         else:
@@ -45,7 +52,8 @@ class PumpController(object):
         """
         self.pump_state = "DRAINING"
         self.log.info("Switched to state draining")
-        GPIO.output(self.pump_pin, 0)
+        self.digital_device.off()
+        #GPIO.output(self.pump_pin, 0)
         self.active_timer = Timer(self.ttf, lambda: self.wait())
         self.active_timer.start()
 
@@ -55,13 +63,13 @@ class PumpController(object):
         """
         self.pump_state = "WAITING"
         self.log.info("Switched to state waiting")
-        GPIO.output(self.pump_pin, 0)
+        self.digital_device.off()
+        ##GPIO.output(self.pump_pin, 0)
         #GPIO.output(drain_pin, 0)
         self.active_timer = None
 
     def json(self):
-        return {
-            "state": self.pump_state,
-            "pin": self.pump_pin,
-            "time_to_fill": self.ttf
-        }
+        as_dict = self.pump.__dict__.copy()
+        del as_dict["_sa_instance_state"]
+        as_dict['state'] = self.pump_state
+        return as_dict
