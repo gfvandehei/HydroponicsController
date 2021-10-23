@@ -1,7 +1,28 @@
 <div class="system-container">
-    <div class="system-name">
+    <div class="title-container">
+        <h1 class="system-name">
+            {{system.value.name}}
+        </h1>
     </div>
-    <div class="camera-view-container"></div>
+    <div class="camera-view-container">
+        <mat-tab-group>
+            <mat-tab *ngFor="let camera of cameraList; let i=index;" label="{{camera.name}}">
+                <div class="image-container">
+                    <img class="camera-image" src="{{cameraImgSrcList[i]}}">
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
     <div class="state-card-container"></div>
-    <div class="sensor-card-container"></div>
+    <div class="io-card-container">
+        <div class="servo-bar card-bar">
+            <app-servo-card *ngFor="let servo of servosList.value" [servoID]="servo"></app-servo-card>
+        </div>
+        <div class="dht-bar card-bar">
+            <app-dht-card *ngFor="let dhtDevice of dhtDeviceList.value" [dhtID]="dhtDevice"></app-dht-card>
+        </div>
+        <div class="pump-bar card-bar">
+            <app-pump-card *ngFor="let pumpDevice of pumpDeviceList.value" [pumpId]="pumpDevice"></app-pump-card>
+        </div>
+    </div>
 </div>
