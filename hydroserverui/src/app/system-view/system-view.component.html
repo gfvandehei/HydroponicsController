@@ -21,5 +21,8 @@
         <div class="dht-bar card-bar">
             <app-dht-card *ngFor="let dhtDevice of dhtDeviceList.value" [dhtID]="dhtDevice"></app-dht-card>
         </div>
+        <div class="pump-bar card-bar">
+            <app-pump-card *ngFor="let pumpDevice of pumpDeviceList.value" [pumpId]="pumpDevice"></app-pump-card>
+        </div>
     </div>
 </div>

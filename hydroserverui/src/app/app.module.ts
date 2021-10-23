@@ -12,6 +12,7 @@ import {MatTab, MatTabsModule} from "@angular/material/tabs";
 import { HttpClientModule } from '@angular/common/http';
 import { DhtCardComponent } from './dht-card/dht-card.component';
 import { MatIcon, MatIconModule} from "@angular/material/icon";
+import { PumpCardComponent } from './pump-card/pump-card.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,6 +20,7 @@ import { MatIcon, MatIconModule} from "@angular/material/icon";
     ServoCardComponent,
     SystemsTabGroupComponent,
     DhtCardComponent,
+    PumpCardComponent,
   ],
   imports: [
     BrowserModule,

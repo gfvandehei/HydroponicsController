@@ -1,0 +1,12 @@
+<div class="pump-card small-card" *ngIf="pump != undefined">
+    <div class="pump-card-header small-card-header">
+        <h3 class="pump-card-name">{{pump.value.label}}</h3>
+    </div>
+    <div class="pump-card-information">
+        State: {{pump.value.state}} <br>
+        Time To Fill: {{pump.value.time_to_fill}}
+    </div>
+    <div class="pump-card-actions small-card-actions">
+        <button (click)="fillPump()">Fill</button>
+    </div>
+</div>

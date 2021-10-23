@@ -6,6 +6,7 @@ import { ServoService } from '../services/servo.service';
 import { CameraService } from '../services/camera.service';
 import { CameraSerialized } from '../types/camera';
 import { DhtsensorService } from '../services/dhtsensor.service';
+import { PumpService } from '../services/pump.service';
 
 @Component({
   selector: 'app-system-view',
@@ -19,12 +20,14 @@ export class SystemViewComponent implements OnInit {
   cameraList: Array<CameraSerialized> = [];
   cameraImgSrcList: Array<string> = [];
   dhtDeviceList: BehaviorSubject<Set<string>> = new BehaviorSubject(new Set());
-
+  pumpDeviceList: BehaviorSubject<Set<number>> = new BehaviorSubject(new Set());
+  
   constructor(
     private systems: SystemService,
     private servos: ServoService,
     public cameras: CameraService,
-    private dhts: DhtsensorService
+    private dhts: DhtsensorService,
+    private pumps: PumpService
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -32,8 +35,13 @@ export class SystemViewComponent implements OnInit {
     this.servosList = this.servos.servoMotors;
     this.cameraList = await this.cameras.listCameras();
     this.dhtDeviceList = this.dhts.dhtSensors;
+    this.pumpDeviceList = this.pumps.pumps;
+
     this.dhtDeviceList.subscribe((update) => {
       console.log("DHTDEVICES", update);
+    });
+    this.pumpDeviceList.subscribe((result) => {
+      console.log("Pumps", result);
     })
     let imgSrcArray = [];
     for(let index=0;index < this.cameraList.length; index++){
@@ -43,6 +51,7 @@ export class SystemViewComponent implements OnInit {
     this.cameraImgSrcList = imgSrcArray;
     this.servos.listServoMotors();
     this.dhts.getDHTSensorData();
+    this.pumps.listAllPumps();
   }
 
 }
