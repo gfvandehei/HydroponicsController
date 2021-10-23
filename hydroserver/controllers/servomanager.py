@@ -19,7 +19,7 @@ class ServoManager(object):
         session = self.db.get_session()
         servos = session.query(Model.Servo).filter(Model.Servo.system_id==self.system).all()
         for servo in servos:
-            new_servo_controller = ServoController(servo.pin, factory=self.pin_factory)
+            new_servo_controller = ServoController(servo, factory=self.pin_factory)
             self.servo_by_id[servo.id] = new_servo_controller
         session.close()
         log.debug(f'Created {len(self.servo_by_id)} servos from the database')

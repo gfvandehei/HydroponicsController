@@ -4,6 +4,7 @@ from threading import Thread
 import numpy as np
 from hydroserver.physical_interfaces.camera_streamer import CameraStreamer
 from hydroserver.physical_interfaces.camera_storage import CameraStore
+import hydroserver.model.model as Model
 
 class CameraController(Thread):
 
@@ -11,7 +12,7 @@ class CameraController(Thread):
         self, 
         camera_store: CameraStore,
         camera_stream: CameraStreamer,
-        camera_index: int):
+        camera_db_object: Model.Camera):
         """Controls a single camera connected to the system, camera
         is selected via system index
 
@@ -28,9 +29,10 @@ class CameraController(Thread):
         Thread.__init__(self)
         self.image_store = camera_store
         self.image_stream = camera_stream
-        self.camera_index = camera_index
+        self.camera_index = camera_db_object.index
+        self.camera_db_obj = camera_db_object
         #self.rawCapture = PiRGBArray(self.camera, size=(640, 480))
-        self.camera = cv2.VideoCapture(camera_index)
+        self.camera = cv2.VideoCapture(self.camera_index)
         self.most_recent_image = None
         self._refresh_rate = 1
         # sleep for a 1/10 second to allow camera to start up
@@ -68,8 +70,8 @@ class CameraController(Thread):
         :return: a serializable dict representing the camera
         :rtype: Dict[str, Any]
         """
-        return {
-            "index": self.camera_index,
-            "refresh_rate": self._refresh_rate
-        }
+        as_dict = self.camera_db_obj.__dict__.copy()
+        del as_dict["_sa_instance_state"]
+        as_dict['refresh_rate'] = self._refresh_rate
+        return as_dict
 
