@@ -64,6 +64,16 @@ class Pump(Base):
     pin = Column(Integer)
     system_id = Column(Integer, ForeignKey("systems.id"))
     time_to_fill = Column(Integer)
+
+class PumpScheduleEntry(Base):
+    __tablename__ = "pump_schedule"
+
+    id = Column(Integer, primary_key=True)
+    action = Column(String)
+    pump_id = Column(Integer, ForeignKey("pumps.id"))
+    days_active = Column(String) #M,T,W,TH,F,S,SU
+    times = Column(String) # datetime iso string delimited by commas
+
     
 class DHTSensor(Base):
     __tablename__="dht_sensors"
