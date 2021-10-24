@@ -1,3 +1,4 @@
+from hydroserver.controllers.pump_schedule_controller import PumpScheduleController
 from hydroserver.views.dht_blueprint import create_dht_blueprint
 from hydroserver.views.servo_blueprint import create_servo_blueprint
 from gpiozero.pins import Factory
@@ -35,6 +36,8 @@ class HydroponicsServer(Thread):
         self.servo_controller = ServoManager(self.database_controller, settings.system_id, pin_factory)
         self.gimbal_controller = GimbalManager(self.database_controller, self.camera_controller, self.servo_controller, settings.system_id)
         self.dht_controller = DHTManager(self.database_controller, settings.system_id)
+        self.pump_schedule_contrller = PumpScheduleController(self.database_controller, self.pump_controller, settings.system_id)
+        
         # add views
         self.flask_app.register_blueprint(
             create_camera_blueprint(
