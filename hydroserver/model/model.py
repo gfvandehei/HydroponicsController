@@ -71,6 +71,7 @@ class PumpScheduleEntry(Base):
     id = Column(Integer, primary_key=True)
     action = Column(String)
     pump_id = Column(Integer, ForeignKey("pumps.id"))
+    #system_id = Column(Integer, ForeignKey("systems.id")) # this could optimize queries but I dont think it will be a realistic use case subquery will slow enough
     days_active = Column(String) #M,T,W,TH,F,S,SU
     times = Column(String) # datetime iso string delimited by commas
 

@@ -44,3 +44,8 @@ class PumpSchedule(object):
         day_code = days[current_day.weekday()]
 
         return day_code in self.run_days
+
+    def json(self):
+        as_dict = self.pump_schedule.__dict__.copy()
+        del as_dict["_sa_instance_state"]
+        return as_dict

@@ -20,10 +20,12 @@ class PumpScheduleController(Thread):
         pump_manager: PumpManager,
         system_id: int):
 
+        Thread.__init__(self)
         self.db = database
         self._pumps = pump_manager
         self.system = system_id
         self.pump_schedules: Dict[int, PumpSchedule] = {}
+        self.populate_from_database()
 
     def populate_from_database(self):
         session = self.db.get_session()
@@ -39,7 +41,7 @@ class PumpScheduleController(Thread):
         while True:
             current_time = datetime.now()
             for schedule in self.pump_schedules.values():
-                if schedule.check_day(current_time.date) and schedule.check(current_time.time()):
+                if schedule.check_day(current_time.date()) and schedule.check(current_time.time()):
                     schedule.pump.fill()
             # setting for 30 seconds makes sure we get every single minute
             time.sleep(30)

@@ -1,5 +1,7 @@
 from hydroserver.controllers.pump_schedule_controller import PumpScheduleController
+from hydroserver.model.requests import pump_schedules
 from hydroserver.views.dht_blueprint import create_dht_blueprint
+from hydroserver.views.pump_schedule_blueprint import create_pump_schedule_blueprint
 from hydroserver.views.servo_blueprint import create_servo_blueprint
 from gpiozero.pins import Factory
 from hydroserver.settings import HydroponicsServerSettings
@@ -60,6 +62,17 @@ class HydroponicsServer(Thread):
             create_pump_blueprint(self.pump_controller),
             url_prefix="/pump"
         )
+        self.flask_app.register_blueprint(
+            create_pump_schedule_blueprint(
+                self.database_controller,
+                self.pump_schedule_contrller,
+                self.pump_controller
+            ),
+            url_prefix="/pump_schedule"
+        )
+
+        # handle any threaded operations 
+        self.pump_schedule_contrller.start() 
 
 
     def run(self):
