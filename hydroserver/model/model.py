@@ -5,6 +5,10 @@ from sqlalchemy.sql.sqltypes import DateTime, Time
 
 Base = declarative_base()
 
+"""
+any database tables go below, this is the sqlalchemy ORM model
+"""
+
 class User(Base):
     __tablename__ = "users"
 
