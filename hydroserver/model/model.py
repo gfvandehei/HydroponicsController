@@ -17,6 +17,15 @@ class User(Base):
     lastname = Column(String)
     username = Column(String, unique=True)
     email = Column(String, unique=True)
+    password = Column(String, nullable=False)
+    salt = Column(String, nullable=False)
+    admin = Column(bool, nullable=True) # flag to tell if is total admin
+
+class UserPermission(Base):
+    __tablename__ = "user_permissions"
+
+    user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
+    system = Column(Integer, ForeignKey("systems.name"), primary_key=True)
 
 class System(Base):
     __tablename__="systems"

@@ -41,9 +41,10 @@ def create_system_route(database_manager: DatabaseConnectionController):
         system = session.query(Model.System).filter(Model.System.id == int(system_id)).one()
         session.close()
         # make request to system
+        print("http://"+system.address+":5000"+"/"+url)
         proxy_response = requests.request(
             method=request.method,
-            url="http://"+system.address+"/"+url,
+            url=f"http://{system.address}:5000/{url}",
             headers={key: value for (key, value) in request.headers if key != "Host"},
             data=request.get_data(),
             cookies=request.cookies,
