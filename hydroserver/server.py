@@ -18,6 +18,7 @@ from hydroserver.controllers.dht_manager import DHTManager
 from gpiozero.pins.pigpio import PiGPIOFactory
 from hydroserver.views.camera_blueprint import create_camera_blueprint
 from hydroserver.views.pump_blueprint import create_pump_blueprint
+from hydroserver.utils.ip_updater import update_ip_address_in_db
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
@@ -39,7 +40,10 @@ class HydroponicsServer(Thread):
         self.gimbal_controller = GimbalManager(self.database_controller, self.camera_controller, self.servo_controller, settings.system_id)
         self.dht_controller = DHTManager(self.database_controller, settings.system_id)
         self.pump_schedule_contrller = PumpScheduleController(self.database_controller, self.pump_controller, settings.system_id)
-        
+
+       # any tasks that need to happen do here
+       ip = update_ip_address_in_db(self.database_controller, self.settings.system_id)
+
         # add views
         self.flask_app.register_blueprint(
             create_camera_blueprint(
