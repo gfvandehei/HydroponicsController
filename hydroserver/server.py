@@ -1,4 +1,7 @@
+from hydroserver.controllers.pump_schedule_controller import PumpScheduleController
+from hydroserver.model.requests import pump_schedules
 from hydroserver.views.dht_blueprint import create_dht_blueprint
+from hydroserver.views.pump_schedule_blueprint import create_pump_schedule_blueprint
 from hydroserver.views.servo_blueprint import create_servo_blueprint
 from gpiozero.pins import Factory
 from hydroserver.settings import HydroponicsServerSettings
@@ -14,6 +17,7 @@ from hydroserver.controllers.servomanager import ServoManager
 from hydroserver.controllers.dht_manager import DHTManager
 from gpiozero.pins.pigpio import PiGPIOFactory
 from hydroserver.views.camera_blueprint import create_camera_blueprint
+from hydroserver.views.pump_blueprint import create_pump_blueprint
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
@@ -34,6 +38,8 @@ class HydroponicsServer(Thread):
         self.servo_controller = ServoManager(self.database_controller, settings.system_id, pin_factory)
         self.gimbal_controller = GimbalManager(self.database_controller, self.camera_controller, self.servo_controller, settings.system_id)
         self.dht_controller = DHTManager(self.database_controller, settings.system_id)
+        self.pump_schedule_contrller = PumpScheduleController(self.database_controller, self.pump_controller, settings.system_id)
+        
         # add views
         self.flask_app.register_blueprint(
             create_camera_blueprint(
@@ -47,10 +53,26 @@ class HydroponicsServer(Thread):
             ),
             url_prefix="/servo"
         )
+        print("/dht")
         self.flask_app.register_blueprint(
             create_dht_blueprint(self.dht_controller),
             url_prefix="/dht"
         )
+        self.flask_app.register_blueprint(
+            create_pump_blueprint(self.pump_controller),
+            url_prefix="/pump"
+        )
+        self.flask_app.register_blueprint(
+            create_pump_schedule_blueprint(
+                self.database_controller,
+                self.pump_schedule_contrller,
+                self.pump_controller
+            ),
+            url_prefix="/pump_schedule"
+        )
+
+        # handle any threaded operations 
+        self.pump_schedule_contrller.start() 
 
 
     def run(self):

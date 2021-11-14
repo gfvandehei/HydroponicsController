@@ -8,6 +8,15 @@ log = logging.getLogger(__name__)
 
 class ServoManager(object):
     def __init__(self, database: DatabaseConnectionController, system_id: int, pin_factory=None):
+        """an object to initialize and store a map of system servo objects
+
+        :param database: the object used to get database sessions
+        :type database: DatabaseConnectionController
+        :param system_id: the id of the system we are in
+        :type system_id: int
+        :param pin_factory: the factory used to interface with servos, i think right now i use pigpio, defaults to None
+        :type pin_factory: raspberry pi pin factory, optional
+        """
         self.db = database
         self.system = system_id
         self.pin_factory = pin_factory

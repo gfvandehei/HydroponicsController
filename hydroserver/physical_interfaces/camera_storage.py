@@ -6,6 +6,13 @@ import datetime
 class CameraStore(object):
 
     def __init__(self, directory: str, day_pic_time: datetime.time):
+        """A camera store is a directory on this machine we will store images in
+
+        :param directory: the directory (absolute path) that pictures will be placed in
+        :type directory: str
+        :param day_pic_time: the time of day a single photo will be saved for timelapse
+        :type day_pic_time: datetime.time
+        """
         self._base_dir = directory
         self._day_pic_time = day_pic_time
 

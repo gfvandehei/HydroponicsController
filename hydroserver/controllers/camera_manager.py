@@ -16,7 +16,16 @@ class CameraManager(object):
         database: DatabaseConnectionController, 
         camera_stores: CameraStoreManager,
         system_id: int):
+        """an object used to provide an interface for views to query physical cameras,
+        as well as initialize cameras from the database
 
+        :param database: the object we will be using to create database sessions
+        :type database: DatabaseConnectionController
+        :param camera_stores: the controller object for photo storage operations
+        :type camera_stores: CameraStoreManager
+        :param system_id: the numeric ID of the system I am running on
+        :type system_id: int
+        """
         self.db = database
         self.system_id = system_id
         self.camera_store_manager = camera_stores
@@ -25,6 +34,9 @@ class CameraManager(object):
         self.populate_from_database()
 
     def populate_from_database(self):
+        """get all information about cameras for the system, create physical camera objects
+        and place them into a dict so I can access them by id
+        """
         session = self.db.get_session()
         cameras = session.query(Model.Camera).filter(Model.Camera.system_id == self.system_id).all()
         for camera in cameras:

@@ -141,3 +141,5 @@ cython_debug/
 hydrobasic.service
 .python-version
 Adafruit_Python_DHT
+
+.vscode
