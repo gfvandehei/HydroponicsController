@@ -3,7 +3,7 @@ from sqlalchemy.sql.expression import false
 from hydroserver.controllers.database import DatabaseConnectionController
 import hydroserver.model.model as Model
 from flask import Blueprint, request
-from utils.sqlalchemy_funcs import sqlobj_to_json
+from proxyserver.utils.sqlalchemy_funcs import sqlobj_to_json
 import requests
 
 def create_system_route(database_manager: DatabaseConnectionController):
@@ -43,7 +43,7 @@ def create_system_route(database_manager: DatabaseConnectionController):
         # make request to system
         proxy_response = requests.request(
             method=request.method,
-            url=system.address+"/"+url,
+            url="http://"+system.address+"/"+url,
             headers={key: value for (key, value) in request.headers if key != "Host"},
             data=request.get_data(),
             cookies=request.cookies,
@@ -57,3 +57,5 @@ def create_system_route(database_manager: DatabaseConnectionController):
         
         response = Response(proxy_response.content, proxy_response.status_code, headers)
         return response
+    
+    return system_blueprint
