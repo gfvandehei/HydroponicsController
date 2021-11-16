@@ -1,7 +1,7 @@
 from sqlalchemy.orm import declarative_base, relation, relationship
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.sql.schema import ForeignKey
-from sqlalchemy.sql.sqltypes import DateTime, Time
+from sqlalchemy.sql.sqltypes import Boolean, DateTime, Time
 
 Base = declarative_base()
 
@@ -17,15 +17,9 @@ class User(Base):
     lastname = Column(String)
     username = Column(String, unique=True)
     email = Column(String, unique=True)
-    password = Column(String, nullable=False)
-    salt = Column(String, nullable=False)
-    admin = Column(bool, nullable=True) # flag to tell if is total admin
-
-class UserPermission(Base):
-    __tablename__ = "user_permissions"
-
-    user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-    system = Column(Integer, ForeignKey("systems.name"), primary_key=True)
+    password = Column(String, nullable=True)
+    salt = Column(String, nullable=True)
+    admin = Column(Boolean, nullable=True) # flag to tell if is total admin
 
 class System(Base):
     __tablename__="systems"
@@ -33,6 +27,13 @@ class System(Base):
     id=Column(Integer, primary_key=True)
     name=Column(String)
     address=Column(String)
+
+class UserPermission(Base):
+    __tablename__ = "user_permissions"
+
+    user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
+    system = Column(Integer, ForeignKey("systems.id"), primary_key=True)
+
 
 class Camera(Base):
     __tablename__ = "cameras"
