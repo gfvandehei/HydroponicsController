@@ -1,37 +1,66 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SystemViewComponent } from './system-view/system-view.component';
+import { SystemViewComponent } from './pages/system-view/system-view.component';
 import { StoreModule } from '@ngrx/store';
 import { ServoCardComponent } from './servo-card/servo-card.component';
-import { SystemsTabGroupComponent } from './systems-tab-group/systems-tab-group.component';
+//import { SystemsTabGroupComponent } from './systems-tab-group/systems-tab-group.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatTab, MatTabsModule} from "@angular/material/tabs";
-import { HttpClientModule } from '@angular/common/http';
+import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
+import { MatFormFieldModule } from '@angular/material/form-field';
+
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DhtCardComponent } from './dht-card/dht-card.component';
 import { MatIcon, MatIconModule} from "@angular/material/icon";
 import { PumpCardComponent } from './pump-card/pump-card.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterFormComponent } from './components/register-form/register-form.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { RegisterPageComponent } from './pages/register-page/register-page.component';
+import { SystemsHomeComponent } from './pages/systems-home/systems-home.component';
+import {AuthInterceptorInterceptor} from "src/app/interceptors/auth-interceptor.interceptor";
+import { SystemInformationCardComponent } from './components/system-information-card/system-information-card.component';
+import { SystemCameraComponent } from './pages/system-view/system-camera/system-camera.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     SystemViewComponent,
     ServoCardComponent,
-    SystemsTabGroupComponent,
+    //SystemsTabGroupComponent,
     DhtCardComponent,
     PumpCardComponent,
+    LoginComponent,
+    RegisterFormComponent,
+    LoginPageComponent,
+    RegisterPageComponent,
+    SystemsHomeComponent,
+    SystemInformationCardComponent,
+    SystemCameraComponent
   ],
   imports: [
     BrowserModule,
+    //RouterModule,
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
     BrowserAnimationsModule,
     MatTabsModule,
     HttpClientModule,
-    MatIconModule
+    MatIconModule,
+    MatInputModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

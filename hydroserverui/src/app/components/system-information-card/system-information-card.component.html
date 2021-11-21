@@ -1,0 +1,20 @@
+<div class="system-information-card flip-card" (click)="navigateToSystem()">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+
+        </div>
+        <div class="flip-card-back">
+            <!--All information-->
+            <h1>Name: {{systemObject!.system.name}}</h1>
+            <p>Address: {{systemObject!.system.address}}</p>
+            <p>Id: {{systemObject!.system.id}}</p>
+        </div>
+    </div>
+    
+    <div class="system-information-header-card" [ngClass]="{'hidden': toggled}">
+        <!--Name and image-->
+    </div>
+    <div class="system-information-extrainfo-card" [ngClass]="{'hidden': !toggled}">
+
+    </div>
+</div>

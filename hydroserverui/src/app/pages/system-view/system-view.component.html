@@ -1,0 +1,20 @@
+<div class="system-header">
+    <div class="system-header-text-left">
+        {{systemObject!.system.address}}
+    </div>
+    <h1 class="system-header-title">{{systemObject!.system.name}}</h1>
+    <div class="system-header-text-right">
+        {{systemObject!.system.id}}
+    </div>
+</div>
+<div class="system-body">
+    <div class="system-nav-sidebar">
+        <a>Camera</a>
+        <a>Sensor</a>
+        <a>Automation</a>
+    </div>
+    <div class="system-nav-display">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+

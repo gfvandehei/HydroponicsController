@@ -20,3 +20,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .card-bar{
     display: flex;
 }
+
+.vertical-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.color-wrapper{
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px rgba(0,0,0,.2);
+}
+
+.color-secondary-background{
+    background-color: #00AB84;
+    color: white;
+}

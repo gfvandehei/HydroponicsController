@@ -1,0 +1,8 @@
+<div class="system-app-list">
+    <div class="system-app" *ngFor="let system of systems">
+        <app-system-information-card [systemObject]="system"></app-system-information-card>
+    </div>
+    <div class="error-display" *ngIf="systems.length == 0">
+        There are no systems to display
+    </div>
+</div>

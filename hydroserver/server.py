@@ -29,6 +29,7 @@ class HydroponicsServer(Thread):
         self.settings = settings
         self.flask_app = flask.Flask(__name__)
         CORS(self.flask_app)
+        self.flask_app.url_map.strict_slashes = False
         # gpiozero conf
         pin_factory = PiGPIOFactory()
         # create controllers
@@ -41,8 +42,8 @@ class HydroponicsServer(Thread):
         self.dht_controller = DHTManager(self.database_controller, settings.system_id)
         self.pump_schedule_contrller = PumpScheduleController(self.database_controller, self.pump_controller, settings.system_id)
 
-       # any tasks that need to happen do here
-       ip = update_ip_address_in_db(self.database_controller, self.settings.system_id)
+        # any tasks that need to happen do here
+        ip = update_ip_address_in_db(self.database_controller, self.settings.system_id)
 
         # add views
         self.flask_app.register_blueprint(

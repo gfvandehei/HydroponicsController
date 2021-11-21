@@ -1,0 +1,17 @@
+<form class="login-form" (ngSubmit)="login()" [formGroup]="loginForm">
+    <h1 class="container-header-centered">
+        Login
+    </h1>
+    <mat-form-field class="login-form-full-width" >
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="example@example.com" formControlName="email" required>
+    </mat-form-field>
+    <mat-form-field class="login-form-full-width" >
+        <mat-label>Password</mat-label>
+        <input matInput type="password" placeholder="password" formControlName="password" required>
+    </mat-form-field>
+    <div class="button-container">
+        <button mat-button type="submit">Log In</button>
+        <button mat-button>Register</button>
+    </div>
+</form>

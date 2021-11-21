@@ -14,6 +14,7 @@ class ProxyServer(object):
     def __init__(self, sql_uri: str):
         self.flask_app = Flask(__name__)
         CORS(self.flask_app)
+        self.flask_app.url_map.strict_slashes = False
 
         self.database_connection = DatabaseConnectionController(sql_uri)
         self.auth = Authenticator(self.database_connection, "MYSECRET")

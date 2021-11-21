@@ -39,9 +39,11 @@ class Authenticator(object):
         return key
     
     def __call__(self, admin_required=False):
+        print("HEREERER")
         def _request_wrapper(f):
             @wraps(f)
             def __request_wrapper(*args, **kwargs):
+                print("AUTH")
                 if request.headers.get("auth_token") is None:
                     # jwt did not exist
                     print("NO JWT")

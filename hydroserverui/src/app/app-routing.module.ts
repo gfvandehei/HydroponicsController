@@ -1,16 +1,42 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { SystemsTabGroupComponent } from './systems-tab-group/systems-tab-group.component';
+import { Router, RouterModule, Routes } from '@angular/router';
+//import { SystemsTabGroupComponent } from './systems-tab-group/systems-tab-group.component';
+import {LoginComponent} from "./components/login/login.component";
+import { RegisterFormComponent } from './components/register-form/register-form.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { RegisterPageComponent } from './pages/register-page/register-page.component';
+import { SystemsHomeComponent } from './pages/systems-home/systems-home.component';
+import { SystemViewComponent } from './pages/system-view/system-view.component';
+import { SystemCameraComponent } from './pages/system-view/system-camera/system-camera.component';
 
 const routes: Routes = [
   {
-    path: "",
-    component: SystemsTabGroupComponent
+    path: "login",
+    component: LoginPageComponent
+  },
+  {
+    path: "register",
+    component: RegisterPageComponent
+  },
+  {
+    path: "home",
+    component: SystemsHomeComponent
+  },
+  {
+    path: "system/:systemId",
+    component: SystemViewComponent,
+    children: [
+      {path: 'camera/:cameraId', component: SystemCameraComponent}
+    ]
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    //RouterModule,
+    RouterModule.forRoot(routes),
+    //RouterModule.forChild(routes)
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
