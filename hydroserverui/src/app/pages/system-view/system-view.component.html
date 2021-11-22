@@ -9,12 +9,22 @@
 </div>
 <div class="system-body">
     <div class="system-nav-sidebar">
-        <a>Camera</a>
-        <a>Sensor</a>
-        <a>Automation</a>
+        <a mat-button [matMenuTriggerFor]="cameraSelector">Camera</a>
+        <a mat-button>Sensor</a>
+        <a mat-button>Automation</a>
     </div>
     <div class="system-nav-display">
         <router-outlet></router-outlet>
     </div>
 </div>
+
+<!--Camera Side Menu-->
+<mat-menu #cameraSelector="matMenu">
+    <a 
+        mat-menu-item
+         *ngFor="let camera of systemObject!.cameras.value; let i = index;"
+        [routerLink]="['./camera', i]">
+        {{camera.camera.name}}
+    </a>
+</mat-menu>
 

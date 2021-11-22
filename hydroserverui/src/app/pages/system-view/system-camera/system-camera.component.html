@@ -1,1 +1,6 @@
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Shaqi_jrvej.jpg/1200px-Shaqi_jrvej.jpg" height="300px" width="200px">
+<div class="camera-controls">
+    <button (click)="updateImage()">Refresh</button>
+</div>
+<div class="camera-container">
+    <img #imageContainer *ngIf="camera != null" src="image">
+</div>

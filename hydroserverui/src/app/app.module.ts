@@ -13,6 +13,7 @@ import {MatTab, MatTabsModule} from "@angular/material/tabs";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatMenu, MatMenuModule} from "@angular/material/menu";
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DhtCardComponent } from './dht-card/dht-card.component';
@@ -57,6 +58,7 @@ import { SystemCameraComponent } from './pages/system-view/system-camera/system-
     MatFormFieldModule,
     FormsModule,
     ReactiveFormsModule,
+    MatMenuModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorInterceptor, multi: true}
