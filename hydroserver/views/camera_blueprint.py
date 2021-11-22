@@ -30,7 +30,7 @@ def create_camera_blueprint(camera_manager: CameraManager):
     camera_blueprint = Blueprint("camera", __name__)
 
     @camera_blueprint.route("/")
-    def get_camera_image():
+    def get_camera_datas():
         values = camera_manager.cameras.values()
         serialized_values = list(map(lambda x: x.json(), values))
         return {
