@@ -45,6 +45,14 @@ def create_camera_blueprint(camera_manager: CameraManager):
         new_camera_streamer_subscriber = CameraStreamSubscriber(camera_streamer)
         return Response(new_camera_streamer_subscriber(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
+    @camera_blueprint.route("/<camera_id>/image")
+    def get_camera_image(camera_id):
+        camera_id = int(camera_id)
+        camera = camera_manager.cameras[camera_id]
+        image_bytes = camera.image_stream._current_image_bytes
+        as_jpeg = cv2.imencode(".jpg", image_bytes)
+        return Response(as_jpeg, content_type="image/jpeg")
+        
     @camera_blueprint.route("/<camera_id>/refresh_rate", methods=["POST"])
     def set_camera_refresh_rate(camera_id):
         camera_id = int(camera_id)
