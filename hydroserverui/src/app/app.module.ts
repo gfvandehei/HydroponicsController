@@ -27,6 +27,8 @@ import { SystemsHomeComponent } from './pages/systems-home/systems-home.componen
 import {AuthInterceptorInterceptor} from "src/app/interceptors/auth-interceptor.interceptor";
 import { SystemInformationCardComponent } from './components/system-information-card/system-information-card.component';
 import { SystemCameraComponent } from './pages/system-view/system-camera/system-camera.component';
+import { AuthDialogComponent } from './components/auth-dialog/auth-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import { SystemCameraComponent } from './pages/system-view/system-camera/system-
     RegisterPageComponent,
     SystemsHomeComponent,
     SystemInformationCardComponent,
-    SystemCameraComponent
+    SystemCameraComponent,
+    AuthDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +61,8 @@ import { SystemCameraComponent } from './pages/system-view/system-camera/system-
     MatFormFieldModule,
     FormsModule,
     ReactiveFormsModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDialogModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorInterceptor, multi: true}
