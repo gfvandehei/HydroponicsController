@@ -39,12 +39,12 @@ export class LoginComponent implements OnInit {
     console.log(this.loginForm.value);
     if(this.loginForm.valid){
       //login with server
-      try{
-        this.userService.login(this.email?.value, this.password?.value);
+      this.userService.login(this.email?.value, this.password?.value).then((token) => {
         this.router.navigate(["home"]);
-      } catch(err){
-        alert(err);
-      }
+      }).catch((reason) => {
+        console.log(reason);
+        alert(reason);
+      });
     } else{
       alert("Please fix mistakes and try again")
     }
