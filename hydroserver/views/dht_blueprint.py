@@ -15,5 +15,15 @@ def create_dht_blueprint(dht_controller: DHTManager):
             "data": dht_sensors_serialized,
             "messages": []
         }
+
+    @dht_blueprint.route("/<dht_id>")
+    def dht_sensor(dht_id):
+        dht_id = int(dht_id)
+        sensor = dht_controller._dht_sensors[dht_id]
+        
+        return {
+            "data": sensor.json(),
+            "messages": []
+        }
     
     return dht_blueprint

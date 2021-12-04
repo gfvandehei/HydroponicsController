@@ -5,6 +5,7 @@ import jwt
 from flask import Request, Response, request
 from functools import wraps
 import hashlib
+from typing import Tuple
 
 class Authenticator(object):
 
@@ -24,10 +25,11 @@ class Authenticator(object):
             algorithm="HS256"
         )
 
-    def decode_token(self, token: str) -> int:
-        print(token)
+    def decode_token(self, token: str) -> Tuple[int, datetime.datetime]:
+        print("TOKEN", token)
         payload = jwt.decode(token, self.secret, ["HS256"])
-        return payload['sub'] # the user id
+        #print(datetime.datetime.fromtimestamp(payload['exp']))
+        return payload['sub'], datetime.datetime.fromtimestamp(payload['exp']) # the user id
 
     def hash_password(self, salt, password):
         key = hashlib.pbkdf2_hmac(
@@ -44,6 +46,7 @@ class Authenticator(object):
             @wraps(f)
             def __request_wrapper(*args, **kwargs):
                 print("AUTH")
+                needs_refresh = False
                 if request.headers.get("auth_token") is None:
                     # jwt did not exist
                     print("NO JWT")
@@ -52,7 +55,11 @@ class Authenticator(object):
                     # check if token is valid
                     token = request.headers['auth_token']
                     try:
-                        user_id = self.decode_token(token)
+                        user_id, exp_time = self.decode_token(token)
+                        current_time = datetime.datetime.now()
+                        if exp_time - datetime.timedelta(minutes=1) < current_time:
+                            # we need to make refresh roken
+                            needs_refresh = True
                     except Exception as err:
                         print(err)
                         print("Couldnt decode JWT")
@@ -66,6 +73,18 @@ class Authenticator(object):
                         if not user.admin:
                             print("User not admin")
                             return Response(status=401)
+                    if needs_refresh:
+                        print("Refreshing token")
+                        session = self.database.get_session()
+                        user = session.query(Model.User).filter(Model.User.id == user_id).one()
+                        session.close()
+                        new_token = self.create_token(user)
+                        response = f(*args, **kwargs)
+                        if type(response) == Response:
+                            response.headers.add("refresh-token", new_token)
+                            return response
+                        else:
+                            Response(response, headers=[("refresh-token", new_token)])
                     return f(*args, **kwargs)
             __request_wrapper.__name__ = f.__name__
             return __request_wrapper

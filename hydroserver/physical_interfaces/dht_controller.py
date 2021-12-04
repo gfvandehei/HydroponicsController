@@ -42,5 +42,6 @@ class DHTController(object):
             "label": self.database_object.label,
             "pin": self.database_object.pin,
             "temperature": temp*(9/5)+32,
-            "humidity": hum
+            "humidity": hum,
+            "id": self.database_object.id
         }
