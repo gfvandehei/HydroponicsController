@@ -1,0 +1,15 @@
+<div class="dht-card">
+    <div class="dht-card-header">
+        <div class="dht-card-title">{{dhtSensor!.dht.label}}</div>
+        <div class="flex-spacer"></div>
+        <div class="dht-card-type">DHT11</div>
+    </div>
+    <app-dual-circle-graph
+        class="dht-info-display"
+        [value1] = "dhtSensor!.dht.humidity"
+        [range1] = "100"
+        [value2] = "dhtSensor!.dht.temperature"
+        [range2] = "90"
+        [strokeWidth] = "10">
+    </app-dual-circle-graph>
+</div>

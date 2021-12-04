@@ -5,6 +5,7 @@ import {APIBaseResponse} from "../models/api";
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import {SystemObject} from "../models/system";
+import {DhtSensorWrapper} from "../types/dht";
 
 @Injectable({
   providedIn: 'root'

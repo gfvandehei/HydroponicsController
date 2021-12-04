@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import {BehaviorSubject} from "rxjs"
 import { APIBaseResponse } from "./api";
 import {Pump} from "../types/pump";
-import {DHTSensor} from "../types/dht";
+import {DHTSensor, DhtSensorWrapper} from "../types/dht";
 import {environment} from "src/environments/environment";
 import { CameraListResponse, CameraSerialized, CameraWrapper} from "../types/camera";
 
@@ -17,7 +17,7 @@ export class SystemObject{
     system_url: String;
     http: HttpClient;
     pumps = new BehaviorSubject<Array<Pump>>(new Array<Pump>());
-    dhtsensors = new BehaviorSubject<Array<DHTSensor>>(new Array());
+    dhtsensors = new BehaviorSubject<Array<DhtSensorWrapper>>(new Array());
     servos = new BehaviorSubject<Set<number>>(new Set());
     cameras = new BehaviorSubject<Array<CameraWrapper>>(new Array());
 
@@ -38,8 +38,15 @@ export class SystemObject{
     }
 
     getDHTInformation(){
-        this.http.get<APIBaseResponse<Array<DHTSensor>>>(`${this.system_url}/dht`).subscribe((result) => {
-            this.dhtsensors.next(result.data);
+        this.http.get<APIBaseResponse<{[key: number]: DHTSensor}>>(`${this.system_url}/dht`).subscribe((result) => {
+            let dhtSensors: Array<DhtSensorWrapper> = [];
+            console.log(result);
+            Object.values(result.data).forEach(sensor => {
+                console.log(sensor)
+                let dhtSensorWrapper = new DhtSensorWrapper(sensor, this, this.http);
+                dhtSensors.push(dhtSensorWrapper);
+            });
+            this.dhtsensors.next(dhtSensors);
         });
     }
 

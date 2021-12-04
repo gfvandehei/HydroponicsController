@@ -8,6 +8,7 @@ import { RegisterPageComponent } from './pages/register-page/register-page.compo
 import { SystemsHomeComponent } from './pages/systems-home/systems-home.component';
 import { SystemViewComponent } from './pages/system-view/system-view.component';
 import { SystemCameraComponent } from './pages/system-view/system-camera/system-camera.component';
+import { SystemSensorsComponent } from './pages/system-view/system-sensors/system-sensors.component';
 
 const routes: Routes = [
   {
@@ -26,7 +27,8 @@ const routes: Routes = [
     path: "system/:systemId",
     component: SystemViewComponent,
     children: [
-      {path: 'camera/:cameraId', component: SystemCameraComponent}
+      {path: 'camera/:cameraId', component: SystemCameraComponent},
+      {path: 'sensor', component: SystemSensorsComponent}
     ]
   }
 ];

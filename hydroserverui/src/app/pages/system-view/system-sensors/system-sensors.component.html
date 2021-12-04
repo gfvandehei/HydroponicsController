@@ -1,0 +1,3 @@
+<div class="sensor-card-list-container" *ngIf="systemObject != null">
+    <app-dht-card *ngFor="let sensorWrapper of systemObject!.dhtsensors.value" [dhtSensor]="sensorWrapper"></app-dht-card>
+</div>

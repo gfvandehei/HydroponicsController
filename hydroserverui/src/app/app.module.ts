@@ -16,7 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatMenu, MatMenuModule} from "@angular/material/menu";
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { DhtCardComponent } from './dht-card/dht-card.component';
+import { DhtCardComponent } from './components/dht-card/dht-card.component';
 import { MatIcon, MatIconModule} from "@angular/material/icon";
 import { PumpCardComponent } from './pump-card/pump-card.component';
 import { LoginComponent } from './components/login/login.component';
@@ -29,6 +29,8 @@ import { SystemInformationCardComponent } from './components/system-information-
 import { SystemCameraComponent } from './pages/system-view/system-camera/system-camera.component';
 import { AuthDialogComponent } from './components/auth-dialog/auth-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { SystemSensorsComponent } from './pages/system-view/system-sensors/system-sensors.component';
+import { DualCircleGraphComponent } from './components/dual-circle-graph/dual-circle-graph.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     SystemsHomeComponent,
     SystemInformationCardComponent,
     SystemCameraComponent,
-    AuthDialogComponent
+    AuthDialogComponent,
+    SystemSensorsComponent,
+    DualCircleGraphComponent
   ],
   imports: [
     BrowserModule,
