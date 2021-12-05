@@ -23,6 +23,7 @@ export class PumpWrapper{
         this.system = system;
         this.pump = pumpInterface;
         this.http = http;
+        this.refreshPumpInformation();
     }
 
     refreshPumpInformation(){

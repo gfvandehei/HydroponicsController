@@ -32,6 +32,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SystemSensorsComponent } from './pages/system-view/system-sensors/system-sensors.component';
 import { DualCircleGraphComponent } from './components/dual-circle-graph/dual-circle-graph.component';
 import { SystemAutomationComponent } from './pages/system-view/system-automation/system-automation.component';
+import { PumpInfoCardComponent } from './components/pump-info-card/pump-info-card.component';
+import { PumpScheduleDisplayComponent } from './components/pump-schedule-display/pump-schedule-display.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { SystemAutomationComponent } from './pages/system-view/system-automation
     AuthDialogComponent,
     SystemSensorsComponent,
     DualCircleGraphComponent,
-    SystemAutomationComponent
+    SystemAutomationComponent,
+    PumpInfoCardComponent,
+    PumpScheduleDisplayComponent
   ],
   imports: [
     BrowserModule,

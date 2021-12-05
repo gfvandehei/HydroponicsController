@@ -1,0 +1,15 @@
+<div class="pump-info-card">
+    <div class="pump-info-card-header">
+        <div class="pump-title">{{pump!.pump.label}}</div>
+        <div class="flex-spacer"></div>
+        <div class="pump-state">{{pump!.pump.state}}</div>
+    </div>
+    <div class="pump-info-card-body">
+        <div class="pump-schedule-list">
+            <app-pump-schedule-display
+                *ngFor="let schedule of pump!.schedules; let i=index;" 
+                [schedule]="schedule"
+                (updatedEvent)="updateSchedule(i)"></app-pump-schedule-display>
+        </div>
+    </div>
+</div>

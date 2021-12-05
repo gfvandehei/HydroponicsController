@@ -1,0 +1,18 @@
+<div class="pump-schedule-display">
+    <div class="row-1 schedule-day-display">
+        <button
+            class="day-button"
+            *ngFor="let daycode of allDays; let i=index;"
+            [ngClass]="{'active': activeDays!.has(daycode)}" 
+            (click)="toggleDay(allDays[i])">{{daycode}}</button>
+    </div>
+    <!--a column display of all times we have schedules-->
+    <div class="row-2 schedule-time-display">
+        <div class="time-row" *ngFor="let time of schedule!.times; let i = index;">
+            <h3>{{time}}</h3>
+            <div class="flex-spacer"></div>
+            <button (click)="removeTime(i)">Remove</button>
+        </div>
+        <button (click)="addTime()">Add</button>
+    </div>
+</div>
