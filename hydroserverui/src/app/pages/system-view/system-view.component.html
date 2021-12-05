@@ -11,7 +11,7 @@
     <div class="system-nav-sidebar">
         <a mat-button [matMenuTriggerFor]="cameraSelector">Camera</a>
         <a mat-button [routerLink]="['./sensor']">Sensor</a>
-        <a mat-button>Automation</a>
+        <a mat-button [routerLink]="['./automation']">Automation</a>
     </div>
     <div class="system-nav-display">
         <router-outlet></router-outlet>
