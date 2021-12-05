@@ -9,6 +9,7 @@ import { SystemsHomeComponent } from './pages/systems-home/systems-home.componen
 import { SystemViewComponent } from './pages/system-view/system-view.component';
 import { SystemCameraComponent } from './pages/system-view/system-camera/system-camera.component';
 import { SystemSensorsComponent } from './pages/system-view/system-sensors/system-sensors.component';
+import { SystemAutomationComponent } from './pages/system-view/system-automation/system-automation.component';
 
 const routes: Routes = [
   {
@@ -28,7 +29,8 @@ const routes: Routes = [
     component: SystemViewComponent,
     children: [
       {path: 'camera/:cameraId', component: SystemCameraComponent},
-      {path: 'sensor', component: SystemSensorsComponent}
+      {path: 'sensor', component: SystemSensorsComponent},
+      {path: "automation", component: SystemAutomationComponent}
     ]
   }
 ];

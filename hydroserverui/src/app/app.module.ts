@@ -31,6 +31,7 @@ import { AuthDialogComponent } from './components/auth-dialog/auth-dialog.compon
 import { MatDialogModule } from '@angular/material/dialog';
 import { SystemSensorsComponent } from './pages/system-view/system-sensors/system-sensors.component';
 import { DualCircleGraphComponent } from './components/dual-circle-graph/dual-circle-graph.component';
+import { SystemAutomationComponent } from './pages/system-view/system-automation/system-automation.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { DualCircleGraphComponent } from './components/dual-circle-graph/dual-ci
     SystemCameraComponent,
     AuthDialogComponent,
     SystemSensorsComponent,
-    DualCircleGraphComponent
+    DualCircleGraphComponent,
+    SystemAutomationComponent
   ],
   imports: [
     BrowserModule,

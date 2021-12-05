@@ -19,6 +19,7 @@ export class LoginPromptServiceService {
     if(!this.loginPromptDisplayed){
       this.loginPromptDisplayed = true;
       this.dialog.open(AuthDialogComponent).afterClosed().subscribe((toLogin: boolean) => {
+        console.log(toLogin);
         if(toLogin){
           this.router.navigate(['login']);
         }
