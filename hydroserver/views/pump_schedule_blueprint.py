@@ -49,9 +49,12 @@ def create_pump_schedule_blueprint(
 
     @pump_schedule_blueprint.route("/<pump_id>", methods=["GET"])
     def get_schedules_for_pump(pump_id: str):
+        print("getting schedules for pump")
         pump_id = int(pump_id)
         pump_schedule_controller.populate_from_database()
-        for_pump = filter(lambda sched_obj: sched_obj.pump_schedule.pump_id, pump_schedule_controller.pump_schedules.values())
+        print(pump_schedule_controller.pump_schedules.values())
+        for_pump = filter(lambda sched_obj: sched_obj.pump_schedule.pump_id == pump_id, pump_schedule_controller.pump_schedules.values())
+        print(for_pump)
         serialized = list(map(lambda x: x.json(), for_pump))
         return {
             "status": 200,

@@ -48,4 +48,8 @@ class PumpSchedule(object):
     def json(self):
         as_dict = self.pump_schedule.__dict__.copy()
         del as_dict["_sa_instance_state"]
+        time_to_array = self.pump_schedule.times.split(",")
+        day_to_array = self.pump_schedule.days_active.split(",")
+        as_dict['times'] = time_to_array
+        as_dict["days_active"] = day_to_array
         return as_dict
