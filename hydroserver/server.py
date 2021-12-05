@@ -43,7 +43,7 @@ class HydroponicsServer(Thread):
         self.pump_schedule_contrller = PumpScheduleController(self.database_controller, self.pump_controller, settings.system_id)
 
         # any tasks that need to happen do here
-        ip = update_ip_address_in_db(self.database_controller, self.settings.system_id)
+        # ip = update_ip_address_in_db(self.database_controller, self.settings.system_id)
 
         # add views
         self.flask_app.register_blueprint(
