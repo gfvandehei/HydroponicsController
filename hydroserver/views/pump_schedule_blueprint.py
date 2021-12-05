@@ -51,7 +51,7 @@ def create_pump_schedule_blueprint(
     def get_schedules_for_pump(pump_id: str):
         pump_id = int(pump_id)
         pump_schedule_controller.populate_from_database()
-        for_pump = filter(lambda sched_obj: sched_obj.pump_id, pump_schedule_controller.pump_schedules.values())
+        for_pump = filter(lambda sched_obj: sched_obj.pump_schedule.pump_id, pump_schedule_controller.pump_schedules.values())
         serialized = list(map(lambda x: x.json(), for_pump))
         return {
             "status": 200,
@@ -92,5 +92,5 @@ def create_pump_schedule_blueprint(
         session.commit()
         session.close()
         return get_schedules_for_pump()
-        
+
     return pump_schedule_blueprint
