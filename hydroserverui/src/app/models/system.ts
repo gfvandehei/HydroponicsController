@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import {BehaviorSubject} from "rxjs"
 import { APIBaseResponse } from "./api";
-import {Pump} from "../types/pump";
+import {Pump, PumpWrapper} from "../types/pump";
 import {DHTSensor, DhtSensorWrapper} from "../types/dht";
 import {environment} from "src/environments/environment";
 import { CameraListResponse, CameraSerialized, CameraWrapper} from "../types/camera";
@@ -16,7 +16,7 @@ export class SystemObject{
     system: System;
     system_url: String;
     http: HttpClient;
-    pumps = new BehaviorSubject<Array<Pump>>(new Array<Pump>());
+    pumps = new BehaviorSubject<Array<PumpWrapper>>(new Array());
     dhtsensors = new BehaviorSubject<Array<DhtSensorWrapper>>(new Array());
     servos = new BehaviorSubject<Set<number>>(new Set());
     cameras = new BehaviorSubject<Array<CameraWrapper>>(new Array());
@@ -33,7 +33,13 @@ export class SystemObject{
 
     getPumpInformation(){
         this.http.get<APIBaseResponse<Array<Pump>>>(`${this.system_url}/pump`).subscribe((result) => {
-            this.pumps.next(result.data);
+            //create pump wrappers
+            let pumpWrappers: PumpWrapper[] = []
+            result.data.forEach((pump) => {
+                let newPumpWrapper = new PumpWrapper(pump, this, this.http);
+                pumpWrappers.push(newPumpWrapper);
+            });
+            this.pumps.next(pumpWrappers);
         });
     }
 
