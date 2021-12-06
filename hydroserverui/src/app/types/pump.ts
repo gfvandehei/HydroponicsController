@@ -31,6 +31,7 @@ export class PumpWrapper{
         .subscribe((result) => {
             this.pump = result.data;
         })
+        this.getSchedulesForPump();
     }
 
     startPump(){
@@ -41,28 +42,30 @@ export class PumpWrapper{
     }
 
     modifyScheduleForPump(scheduleUpdate: IPumpSchedule){
-        this.http.post<APIBaseResponse<Array<IPumpSchedule>>>(`${environment.API_URL}/system/${this.system.system.id}/pump_schedules/${this.pump.id}/${scheduleUpdate.id}`, scheduleUpdate)
+        this.http.post<APIBaseResponse<Array<IPumpSchedule>>>(`${environment.API_URL}/system/${this.system.system.id}/pump_schedule/${this.pump.id}/${scheduleUpdate.id}`, scheduleUpdate)
         .subscribe((result) => {
             this.schedules = result.data;
         });
     }
 
     getSchedulesForPump(){
+        console.log("Getting schedules for pump");
         this.http.get<APIBaseResponse<Array<IPumpSchedule>>>(`${environment.API_URL}/system/${this.system.system.id}/pump_schedule/${this.pump.id}`)
         .subscribe((result) => {
             this.schedules = result.data;
+            console.log("Schedules", this.schedules);
         });
     }
 
     deleteScheduleForPump(scheduleId: number=-1){
         if(scheduleId == -1){
             //we are trying to delete all
-            this.http.delete<APIBaseResponse<Array<IPumpSchedule>>>(`${environment.API_URL}/system/${this.system.system.id}/pump_schedules/${this.pump.id}`)
+            this.http.delete<APIBaseResponse<Array<IPumpSchedule>>>(`${environment.API_URL}/system/${this.system.system.id}/pump_schedule/${this.pump.id}`)
             .subscribe((result) => {
                 this.schedules = result.data;
             })
         } else{
-            this.http.delete<APIBaseResponse<Array<IPumpSchedule>>>(`${environment.API_URL}/system/${this.system.system.id}/pump_schedules/${this.pump.id}/${scheduleId}`)
+            this.http.delete<APIBaseResponse<Array<IPumpSchedule>>>(`${environment.API_URL}/system/${this.system.system.id}/pump_schedule/${this.pump.id}/${scheduleId}`)
             .subscribe((result) => {
                 this.schedules = result.data;
             });

@@ -15,7 +15,7 @@ export class PumpInfoCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  updateSchedule(index: number){
+  updateSchedule(pumpSchedule: IPumpSchedule, index: number){
     // if angular does pass by reference this will work, if not then we have to
     // pass the updated schedule object
     this.pump?.modifyScheduleForPump(this.pump.schedules[index]);

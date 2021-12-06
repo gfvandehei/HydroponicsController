@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
 import { IPumpSchedule, DayCodes } from 'src/app/types/pumpschedule';
 
 @Component({
@@ -8,7 +8,7 @@ import { IPumpSchedule, DayCodes } from 'src/app/types/pumpschedule';
 })
 export class PumpScheduleDisplayComponent implements OnInit {
   @Input() schedule: IPumpSchedule | undefined;
-  updatedEvent: EventEmitter<IPumpSchedule> = new EventEmitter();
+  @Output() updatedEvent= new EventEmitter<IPumpSchedule>();
   
   activeDays: Set<string> | undefined;
   allDays = DayCodes;
