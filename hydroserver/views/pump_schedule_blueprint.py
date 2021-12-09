@@ -81,11 +81,12 @@ def create_pump_schedule_blueprint(
         session.delete(pump_schedule)
         session.commit()
         session.close()
-        return get_schedules_for_pump()
+        return get_schedules_for_pump(pump_id)
     
     @pump_schedule_blueprint.route("/<pump_id>/<schedule_id>", methods=["POST"])
     def update_schedule(pump_id, schedule_id):
         schedule_id = int(schedule_id)
+        pump_id = int(pump_id)
         body = UpdatePumpScheduleRequest.parse_obj(request.json)
         session = database.get_session()
         schedule = session.query(Model.PumpScheduleEntry).filter(Model.PumpScheduleEntry.id == schedule_id).one()
@@ -94,6 +95,6 @@ def create_pump_schedule_blueprint(
         schedule.times = ",".join(body.times)
         session.commit()
         session.close()
-        return get_schedules_for_pump()
+        return get_schedules_for_pump(pump_id)
 
     return pump_schedule_blueprint
