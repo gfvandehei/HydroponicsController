@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Enter a new time</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Time (24hr)</mat-label>
+    <input matInput [(ngModel)]="newTime" type="time">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button (click)="onSubmit()" cdkFocusInitial>Ok</button>
+</div>

@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { IPumpSchedule, DayCodes } from 'src/app/types/pumpschedule';
+import { NewTimeDialogComponent } from './new-time-dialog/new-time-dialog.component';
 
 @Component({
   selector: 'app-pump-schedule-display',
@@ -13,7 +15,9 @@ export class PumpScheduleDisplayComponent implements OnInit {
   activeDays: Set<string> | undefined;
   allDays = DayCodes;
 
-  constructor() { }
+  constructor(
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.activeDays = new Set(this.schedule?.days_active);
@@ -31,10 +35,21 @@ export class PumpScheduleDisplayComponent implements OnInit {
 
   addTime(){
     // open time dialog
+    let ref = this.dialog.open(NewTimeDialogComponent, {
+      width: '250px',
+      data: {}
+    });
+    ref.afterClosed().subscribe((newTime) => {
+      console.log(newTime);
+      this.schedule!.times.push(newTime);
+      this.updatedEvent.emit(this.schedule);
+    })
   }
 
   removeTime(index: number){
-    this.schedule!.times = this.schedule!.times.splice(index, 1);
+    console.log(this.schedule?.times, index);
+    this.schedule!.times.splice(index, 1);
+    console.log(this.schedule?.times);
     this.updatedEvent.emit(this.schedule!);
   }
 

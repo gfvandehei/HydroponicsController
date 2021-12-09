@@ -34,6 +34,7 @@ import { DualCircleGraphComponent } from './components/dual-circle-graph/dual-ci
 import { SystemAutomationComponent } from './pages/system-view/system-automation/system-automation.component';
 import { PumpInfoCardComponent } from './components/pump-info-card/pump-info-card.component';
 import { PumpScheduleDisplayComponent } from './components/pump-schedule-display/pump-schedule-display.component';
+import { NewTimeDialogComponent } from './components/pump-schedule-display/new-time-dialog/new-time-dialog.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { PumpScheduleDisplayComponent } from './components/pump-schedule-display
     DualCircleGraphComponent,
     SystemAutomationComponent,
     PumpInfoCardComponent,
-    PumpScheduleDisplayComponent
+    PumpScheduleDisplayComponent,
+    NewTimeDialogComponent
   ],
   imports: [
     BrowserModule,

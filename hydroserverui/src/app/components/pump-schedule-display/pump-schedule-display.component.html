@@ -8,10 +8,10 @@
     </div>
     <!--a column display of all times we have schedules-->
     <div class="row-2 schedule-time-display">
-        <div class="time-row" *ngFor="let time of schedule!.times; let i = index;">
+        <div class="time-row" *ngFor="let time of schedule!.times; let ind=index;">
             <h3>{{time}}</h3>
             <div class="flex-spacer"></div>
-            <button (click)="removeTime(i)">Remove</button>
+            <button (click)="removeTime(ind)">Remove</button>
         </div>
         <button (click)="addTime()">Add</button>
     </div>

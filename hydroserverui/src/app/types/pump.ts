@@ -42,6 +42,7 @@ export class PumpWrapper{
     }
 
     modifyScheduleForPump(scheduleUpdate: IPumpSchedule){
+        console.log(scheduleUpdate);
         this.http.post<APIBaseResponse<Array<IPumpSchedule>>>(`${environment.API_URL}/system/${this.system.system.id}/pump_schedule/${this.pump.id}/${scheduleUpdate.id}`, scheduleUpdate)
         .subscribe((result) => {
             this.schedules = result.data;
