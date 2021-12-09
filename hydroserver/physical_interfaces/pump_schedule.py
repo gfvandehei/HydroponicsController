@@ -19,9 +19,11 @@ class PumpSchedule(object):
         # determin days I should run
         def to_time(isostring: str) -> datetime.time:
             return datetime.time.fromisoformat(isostring)
-
-        isostrings_to_run = self.pump_schedule.times.split(",")
-        self.times_to_run = list(map(to_time, isostrings_to_run))
+        if len(self.pump_schedule.times) == 0:
+            self.times_to_run = []
+        else:
+            isostrings_to_run = self.pump_schedule.times.split(",")
+            self.times_to_run = list(map(to_time, isostrings_to_run))
 
 
     
