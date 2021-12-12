@@ -54,6 +54,7 @@ export class DualCircleGraphComponent implements AfterViewInit {
     this.ctx!.lineWidth = this.strokeWidth;
     this.ctx!.lineCap = "round";
     this.ctx!.textAlign = "center";
+    this.ctx!.fillStyle = "white";
     this.ctx!.font = "20px arial";
     this.ctx?.arc(canvasCenterX, canvasCenterY, minRad-this.strokeWidth*2, 0, (2*Math.PI)*percentage);
     this.ctx?.fillText(`${Math.round(this.value2)} °`, canvasCenterX, canvasCenterY+20);
