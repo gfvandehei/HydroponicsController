@@ -1,7 +1,10 @@
 from hydroserver.controllers.dht_manager import DHTManager
 from flask import Blueprint, request
+from libraries.hydroserver_redis.dht_interface import HydroDHTRedisInterface
 
-def create_dht_blueprint(dht_controller: DHTManager):
+def create_dht_blueprint(
+    dht_controller: DHTManager,
+    dht_redis_interface: HydroDHTRedisInterface):
     dht_blueprint = Blueprint("dht", __name__)
 
     @dht_blueprint.route("/")
@@ -23,6 +26,17 @@ def create_dht_blueprint(dht_controller: DHTManager):
         
         return {
             "data": sensor.json(),
+            "messages": []
+        }
+    
+    @dht_blueprint.route("/<dht_id>/log", methods=["GET"])
+    def get_sensor_log(dht_id: str):
+        dht_id = int(dht_id)
+        dht_sensor = dht_controller._dht_sensors.get(dht_id)
+        system_id = dht_sensor.database_object.system_id
+        dht_sensor_log = dht_redis_interface.get_dht_sensor_data(system_id, dht_sensor.database_object.id, 100)
+        return {
+            "data": list(dht_sensor_log),
             "messages": []
         }
     

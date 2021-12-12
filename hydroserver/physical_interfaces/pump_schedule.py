@@ -18,10 +18,17 @@ class PumpSchedule(object):
         self.run_days = set(self.pump_schedule.days_active.split(","))
         # determin days I should run
         def to_time(isostring: str) -> datetime.time:
+            try:
+                iso = datetime.time.fromisoformat(isostring)
+                return iso
+            except Exception as err:
+                return datetime.time(hour=0, minute=0)
             return datetime.time.fromisoformat(isostring)
+        
         if len(self.pump_schedule.times) == 0:
             self.times_to_run = []
         else:
+            print(self.pump_schedule.times)
             isostrings_to_run = self.pump_schedule.times.split(",")
             self.times_to_run = list(map(to_time, isostrings_to_run))
 

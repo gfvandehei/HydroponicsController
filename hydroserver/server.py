@@ -19,7 +19,11 @@ from gpiozero.pins.pigpio import PiGPIOFactory
 from hydroserver.views.camera_blueprint import create_camera_blueprint
 from hydroserver.views.pump_blueprint import create_pump_blueprint
 from hydroserver.utils.ip_updater import update_ip_address_in_db
+from hydroserver.controllers.timed_sensor_log_controller import TimedDHTLogController
+from libraries.hydroserver_redis.dht_interface import HydroDHTRedisInterface
 import logging
+import redis
+
 logging.basicConfig(level=logging.DEBUG)
 
 class HydroponicsServer(Thread):
@@ -41,6 +45,10 @@ class HydroponicsServer(Thread):
         self.gimbal_controller = GimbalManager(self.database_controller, self.camera_controller, self.servo_controller, settings.system_id)
         self.dht_controller = DHTManager(self.database_controller, settings.system_id)
         self.pump_schedule_contrller = PumpScheduleController(self.database_controller, self.pump_controller, settings.system_id)
+        
+        self.redis_client = redis.Redis(settings.redis_host, settings.redis_port, settings.redis_db)
+        self.redis_dht_interface = HydroDHTRedisInterface(self.redis_client)
+        self.dht_logging_controller = TimedDHTLogController(self.dht_controller, 60*60, self.redis_dht_interface)
 
         # any tasks that need to happen do here
         # ip = update_ip_address_in_db(self.database_controller, self.settings.system_id)
@@ -78,6 +86,7 @@ class HydroponicsServer(Thread):
 
         # handle any threaded operations 
         self.pump_schedule_contrller.start() 
+        self.dht_logging_controller.start()
 
 
     def run(self):

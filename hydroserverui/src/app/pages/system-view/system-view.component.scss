@@ -3,6 +3,7 @@
     display: grid;
     grid-template-columns: 100px 100px auto 100px 100px;
     grid-template-rows: 5% 5% 5%;
+    background-color: rgba(0,0,0,.2);
 }
 
 .system-header-text-left{
@@ -42,9 +43,11 @@
     grid-column-end: 2;
     display: flex;
     flex-direction: column;
+    background-color: rgba(0,0,0,.1);
 }
 
 .system-nav-display{
     grid-column-start: 2;
     grid-column-end: 3;
+    padding: 10px;
 }
